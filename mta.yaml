@@ -1,0 +1,43 @@
+ID: testFLP
+_schema-version: '2.1'
+version: 0.0.1
+modules:
+  - name: portalFLP
+    type: com.sap.application.portal.content
+    path: portalFLP
+    requires:
+      - name: myPortal
+        parameters:
+          service-key:
+            name: content-deploy-key
+            config:
+              content-endpoint: developer
+          content-target: true
+      - name: uaaAPP
+      - name: html5HOST
+      - name: tuihuoWF
+    parameters:
+      stack: cflinuxfs3
+      memory: 128M
+      buildpack: 'https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.6.39/nodejs-buildpack-cflinuxfs3-v1.6.39.zip'
+resources:
+  - name: myPortal
+    parameters:
+      service-plan: standard
+      service: portal
+    type: org.cloudfoundry.managed-service
+  - name: uaaAPP
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+  - name: html5HOST
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: tuihuoWF
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: workflow
+      service-plan: standard
